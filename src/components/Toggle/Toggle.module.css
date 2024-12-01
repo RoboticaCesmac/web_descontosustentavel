@@ -1,0 +1,45 @@
+.toggle {
+    position: relative;
+    display: inline-block;
+    width: 42px;
+    height: 21px;
+    cursor: pointer;
+    background-color: #ccc;
+    transition: 0.2s;
+    border-radius: 30px;
+    box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 1px 3px 1px rgb(60 64 67 / 15%);
+}
+
+.toggle.disabled {
+    cursor: wait;
+}
+
+.toggle:before {
+    position: absolute;
+    content: "";
+    height: 17px;
+    width: 17px;
+    left: 2px;
+    bottom: 1.5px;
+    background-color: white;
+    border: 1px solid var(--border-color);
+    transition: 0.2s;
+    border-radius: 50%;
+}
+
+.toggle:hover {
+    background-color: rgb(185, 185, 185); 
+}
+
+/* Estado "on" do toggle */
+.toggle.active {
+    background-color: #4285F4;
+}
+
+.toggle.active:hover {
+    background-color: var(--azul);
+}
+
+.toggle.active:before {
+    transform: translate(20px, -0.5px)
+}

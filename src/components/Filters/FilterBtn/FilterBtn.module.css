@@ -1,0 +1,40 @@
+.filter{
+    cursor: pointer;
+    background-color: var(--cinza);
+    border-radius: 8px;
+    padding: 8px 20px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    font-weight: 600;
+    border: 1px solid var(--cinzaSuave);
+    transition: 0.2s ease-in-out;
+    text-wrap: nowrap;
+}
+
+.filter *{
+    pointer-events: none;
+}
+
+.filter:hover{
+    background-color: black;
+    color: white;
+}
+
+.filter.selected{
+    background-color: black;
+    color: white;
+}
+
+.filterAlert{
+    border-radius: 30px;
+    background-color: #FF0162;
+    color: white;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    font-weight: normal;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}

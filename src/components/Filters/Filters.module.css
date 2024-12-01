@@ -1,0 +1,16 @@
+.filtersContainer{
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+.filtersContainer::-webkit-scrollbar{
+    width: 10px;
+    height: 10px;
+}
+
+.filtersContainer::-webkit-scrollbar-thumb{
+    background-color: lightgray;
+}

@@ -1,0 +1,21 @@
+.orderBtn{
+    color: #808080;
+    display: grid;
+    grid-template-columns: 26px 1fr 26px;
+    align-items: center;
+    padding: 5px 10px;
+    gap: 20px;
+    cursor: pointer;
+}
+
+.selected{
+    background-color: #efefef;
+}
+
+.orderBtn * {
+    pointer-events: none;
+}
+
+.orderBtn:hover{
+    background-color: #efefef;
+}

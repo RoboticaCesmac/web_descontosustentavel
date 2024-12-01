@@ -1,0 +1,137 @@
+/* Aside */
+#mainAside{
+    /* background-color: #0B0F1F; */
+    height: 100%;
+    overflow-y: auto;
+    text-wrap: nowrap;
+}
+
+#mainAside::-webkit-scrollbar{
+    background-color: white;
+    width: 10px;
+}
+
+#mainAside::-webkit-scrollbar-thumb{
+    background-color: lightgray;
+}
+
+.quickAddButtonContainer{
+    padding-bottom: 0px;
+}
+
+#quickAddButton{
+    display: flex;
+    font-size: 14px;
+    margin-left: 20px;
+    gap: 10px;
+    align-items: center;
+    border-radius: 30px;
+    font-weight: bold;
+    padding: 10px 20px;
+    transition: .2s ease-in-out;
+    border: 1px solid transparent;
+    box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 1px 3px 1px rgb(60 64 67 / 15%);
+}
+
+#quickAddButton:hover{
+    background-color: #f8f9fa;
+    border: 1px solid var(--border-color) !important;
+    box-shadow: 0 1px 3px 0 rgb(60 64 67 / 30%),0 4px 8px 3px rgb(60 64 67 / 15%);
+}
+
+#quickAddButton > span.material-symbols-outlined{
+    font-weight: bold;
+    color: var(--primaryColor);
+    /* color: var(--azulBtn); */
+    font-size: 30px;
+}
+
+#mainAside nav ul{
+    padding: 0px 20px 0px 0px;
+}
+
+#mainAside nav ul > div{
+    padding: 20px 0px;
+}
+
+#mainAside nav ul > div + div{
+    border-bottom: 1px solid var(--border-color);
+}
+
+#mainAside nav ul > :last-child{
+    border-bottom: none !important;
+}
+
+.asideButtonsTitle{
+    margin-left: 25px;
+    /* color: #fcfcfc; */
+    font-size: 14px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+}
+
+#mainAside nav ul li{
+    cursor: pointer;
+    display: flex;
+    gap: 15px;
+    padding: 5px 10px 5px 25px;
+    margin-bottom: 5px;
+    align-items: center;
+    border-radius: 0px 30px 30px 0px;
+    /* color: #c5cae0; */
+    font-weight: 600;
+    border: 1px solid transparent;
+    transition: 0.1s ease-in-out;
+}
+
+#mainAside nav ul li:hover{
+    /* background-color: rgba(95, 99, 104, 0.1); */
+    /* background-color: var(--roxoSecundarioSootzTransparente); */
+    /* background-color: #EAF1FB; */
+    background-color: var(--transparentColor);
+}
+
+#mainAside nav ul a.active li{
+    font-weight: bolder;
+    /* background-color: rgba(95, 99, 104, 0.1); */
+    /* background-color: #2400Aa;
+    color: white; */
+    /* background-color: #C2E7FF; */
+    background-color: var(--transparentColor);
+}
+
+.navNames{
+    font-size: 14px;
+}
+
+/* Aside Closed */
+main.mainAsideClosed #mainAside{
+    border-right: 1px solid var(--border-color);
+}
+
+main.mainAsideClosed #mainAside .quickAddButtonContainer {
+    display: none;
+}
+
+main.mainAsideClosed #mainAside nav ul{
+    padding: 0px 10px;
+}
+
+main.mainAsideClosed #mainAside nav ul li{
+    justify-content: center;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 40px;
+    transition: none;
+}
+
+main.mainAsideClosed #mainAside .asideButtonsTitle,
+main.mainAsideClosed #mainAside .navNames{
+    display: none;
+}
+
+/* Media */
+@media screen and (max-width: 500px) {
+    
+}

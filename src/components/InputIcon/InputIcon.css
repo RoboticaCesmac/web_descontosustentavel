@@ -1,0 +1,14 @@
+.inputContainerForIcons{
+    position: relative;
+}
+
+.inputContainerForIcons > span{
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translate(0%, -50%);
+}
+
+.inputContainerForIcons input{
+    padding-left: 40px !important;
+}

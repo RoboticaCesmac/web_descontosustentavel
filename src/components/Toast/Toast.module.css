@@ -1,0 +1,50 @@
+/* Result Message */
+.toast{
+    position: fixed;
+    max-width: 500px;
+    right: 20px;
+    bottom: 20px;
+    background-color: rgb(50, 50, 50);
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 4px;
+    width: 100%;
+    margin: auto;
+    color: white;
+    box-shadow: 0px 0px 1px lightgray;
+    box-shadow: 0px 10px 20px lightgray;
+    font-size: 14px;
+}
+
+.actionsResultMessageContainer{
+    display: flex;
+    align-items: center !important;
+    gap: 10px;
+}
+
+.undoActionBtn{
+    padding: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #8AB4F8;
+    margin-bottom: 2px;
+}
+
+.undoActionBtn:hover{
+    background-color: var(--cinzaHoverBg);
+}
+
+.closeMessageBtn{
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 100%;
+    color: var(--cinzaClaro);
+}
+
+.closeMessageBtn:hover{
+    background-color: var(--cinzaHoverBg);
+}

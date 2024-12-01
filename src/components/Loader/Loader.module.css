@@ -1,0 +1,18 @@
+.loader{
+    width: 150px;
+    height: 150px;
+    border-radius: 80%;
+    border-top: 10px solid var(--primaryColor) !important;
+    border: 10px solid rgba(230, 230, 230);
+    box-shadow: 0px 0px 4px lightgray;
+    margin: 60px auto;
+    animation: spinner 1s infinite ease-in-out;
+}
+
+@keyframes spinner {
+    from{
+        transform: rotate(0deg);
+    } to{
+        transform: rotate(360deg);
+    }
+}

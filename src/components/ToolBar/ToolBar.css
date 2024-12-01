@@ -1,0 +1,67 @@
+/* ToolBar */
+#toolBar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+#toolBar h1{
+    font-size: 32px;
+    font-weight: bold;
+}
+
+#toolsContainer{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+#toolsContainer #addBtn{
+    /* background-color: var(--primaryColor); */
+    background-color: var(--azulBtn);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    font-weight: 500;
+    border-radius: 4px;
+    transition: .1s ease-in-out;
+}
+
+#toolsContainer #addBtn:hover{
+    background-color: var(--azul);
+}
+
+#toolsContainer .actionsBtns{
+    color: var(--cinzaClaro);
+    padding: 10px;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+#toolsContainer .actionsBtns:hover{
+    background-color: rgba(95, 99, 104, 0.1);
+}
+
+#changeViewBtn * {
+    pointer-events: none;
+}
+
+#activeAndArchivedContainer{
+    display: flex;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+}
+
+#activeAndArchivedContainer > span{
+    cursor: pointer;
+    padding: 8px;
+    width: 85px;
+    text-align: center;
+    font-size: 14px;
+}
+
+#activeAndArchivedContainer .selected{
+    background-color: #EEE;
+}

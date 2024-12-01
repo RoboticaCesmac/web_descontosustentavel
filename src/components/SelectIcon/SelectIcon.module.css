@@ -1,0 +1,14 @@
+.selectContainerForIcons{
+    position: relative;
+}
+
+.selectContainerForIcons > span{
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translate(0%, -50%);
+}
+
+.selectContainerForIcons select{
+    padding-left: 40px !important;
+}

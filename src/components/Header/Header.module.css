@@ -1,0 +1,159 @@
+.headerComponent{
+    position: sticky;
+    top: 0px;
+    padding: 10px;
+    background-color: white;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    z-index: 1;
+}
+
+.headerContainer{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logoMenuAndInputContainer{
+    flex: .7;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.headerContainer .menuBtnContainer{
+    padding: 0px;
+}
+
+.menuHamburguer{
+    cursor: pointer;
+    color: var(--cinzaClaro);
+    font-size: 24px;
+    padding: 10px;
+    border-radius: 100%;
+}
+
+.menuHamburguer:hover{
+    background-color: var(--cinzaHoverBg);
+}
+
+.logoContainer{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    margin-left: -10px;
+}
+
+.logoContainer img{
+    display: block;
+    border-radius: 100%;
+    width: 40px;
+}
+
+.headerContainer h1{
+    font-weight: bold;
+    font-size: 24px !important;
+}
+
+.headerInputContainerForIcons{
+    margin-left: 30px;
+    position: relative;
+    width: 100%;
+}
+
+.headerInputContainerForIcons input{
+    width: 100%;
+    color: var(--cinzaClaro);
+    border-radius: 10px;
+    color: #120F16;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 14px;
+    padding-left: 40px;
+    border: none !important;
+    transition: .2s ease-in-out;
+    background-color: #f1f3f4 !important;
+    letter-spacing: 0.25px;
+    border: 1px solid var(--cinzaSuave);
+}
+
+.headerInputContainerForIcons input::placeholder{
+    color: #757575;
+}
+
+.headerInputContainerForIcons input::-webkit-calendar-picker-indicator {
+    display: none !important;
+}
+
+.headerInputContainerForIcons input:focus{
+    background-color: white !important;
+    box-shadow: 0 1px 1px 0 rgb(65 69 73 / 30%),0 1px 3px 1px rgb(65 69 73 / 15%);
+    border: none !important;
+    outline: none;
+}
+
+.headerInputContainerForIcons .inputIcons{
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translate(0, -55%);
+}
+
+.headerInputContainerForIcons .searchConfigsBtn{
+    position: absolute;
+    left: auto;
+    top: 50%;
+    transform: translate(0, -55%);
+    right: 13px;
+    top: calc(50% + 1px);
+    padding: 5px;
+    border-radius: 100%;
+    cursor: pointer;
+    background-color: #f1f3f4;
+    transition: .2s ease-in-out;
+}
+
+.headerInputContainerForIcons input:focus ~ button > .searchConfigsBtn{
+    background-color: white;
+}
+
+.headerInputContainerForIcons .searchConfigsBtn .tooltip{
+    top: 40px;
+}
+
+.headerInputContainerForIcons .searchConfigsBtn:hover{
+    background-color: var(--cinzaHoverBg) !important;
+}
+
+.userContainer{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: 0.2s ease-in-out;
+}
+
+.userContainer a span{
+    color: rgba(95, 99, 104);
+    padding: 10px;
+    transition: .1s ease-in-out;
+    border-radius: 100%;
+}
+
+.userContainer span:hover{
+    background-color: rgba(95, 99, 104, 0.1);
+}
+
+.userContainer img{
+    margin-left: 10px;
+    display: block;
+    width: 40px;
+    border-radius: 100%;
+    transition: none;
+}
+
+.userContainer img:hover{
+    transform: scale(102%);
+}

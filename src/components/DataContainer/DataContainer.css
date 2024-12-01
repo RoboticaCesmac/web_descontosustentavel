@@ -1,0 +1,248 @@
+/* TableContainer */
+.dataContainer{
+    overflow-x: auto;
+    border-right: none;
+    /* border: 1px solid lightgray; */
+    /* max-height: 720px; // SETADO DINAMICAMENTE JS ./utils*/
+    z-index: -100 !important;
+}
+
+.dataContainer::-webkit-scrollbar{ /* Teste WebKit */
+    width: 10px;
+    height: 10px;
+    /* background-color: rgb(241, 241, 241); */
+}
+
+.dataContainer::-webkit-scrollbar-thumb{
+    background-color: lightgray;
+}
+
+/* Table */
+.table {
+    text-wrap: nowrap;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 14px;
+    text-align: left;
+    background-color: white;
+}
+
+/* Estilos para botões na tabela */
+/* .table button {
+    background-color: var(--primaryColor);
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 30px;
+    font-weight: bold;
+    border: 1px solid transparent !important;
+    box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.15);
+}
+
+.table button:hover {
+    background-color: #1c0080;
+    border: 1px solid black;
+} */
+
+.table thead{
+    position: sticky;
+    top: 0px;
+    font-weight: 600;
+    z-index: 1;
+    /* background-color: white; */
+    /* background-color: #F7F9FA; */
+}
+
+/* .table tbody tr:nth-child(2n){
+    background-color: rgb(253, 253, 253);
+}
+*/
+
+.table tbody tr:hover{
+    background-color: rgb(252, 252, 252);
+    /* background-color: #f1f1f1; */
+}
+
+.alCenter{
+    text-align: center;
+}
+
+.alRight{
+    text-align: right;
+}
+
+.table th, .table td {
+    padding: 10px 5px;
+    border-bottom: 1px solid #ddd;
+}
+
+.table th{
+    font-size: 16px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgb(199, 199, 199) !important;
+    background-color: white;
+}
+
+.table th .thActions{
+    padding-right: 5px;
+}
+
+.rowUserImgContainer, .rowProductImgContainer{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rowUserImgContainer img{
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 100%;
+}
+
+.rowProductImgContainer img{
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 10px;
+    border: 1px solid lightgray;
+}
+
+.table td a {
+    color: #4285f4;
+    text-decoration: none;
+} 
+
+.table td a:hover {
+    text-decoration: underline;
+}
+
+/* Editar e Excluir Btn */
+.optionsContainer{
+    display: flex;
+    opacity: 0;
+    justify-content: end;
+}
+
+.table tr:hover .optionsContainer{
+    opacity: 100%;
+}
+
+.optionsContainer span{
+    position: relative;
+    background: none;
+    border: none !important;
+    cursor: pointer;
+    border-radius: 4px;
+    color: #5f63686b;
+    border-radius: 100%;
+    font-size: 22px;
+    padding: 5px;
+    transition: .2s ease-in-out;
+}
+
+.optionsContainer span.excluirBtn{
+    margin-left: 6px;
+}
+
+.optionsContainer span.excluirBtn::before{
+    pointer-events: none;
+    content: "";
+    position: absolute;
+    left: -4px;
+    top: 50%;
+    transform: translate(0, -50%);
+    background-color: #5f63682f;
+    width: 1px;
+    height: 50%;
+}
+
+.optionsContainer span:hover{
+    background-color: var(--cinzaHoverBg);
+    color: gray;
+}
+
+.excluirBtn{
+    display: block;
+}
+
+/* Estilo para os status */
+.status {
+    padding: 5px 10px;
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+/* Estilos para os status solicitados */
+.status.pendentes {
+    background-color: #FFEB3B; /* Amarelo */
+    color: #000;
+}
+
+.status.nao-assinado {
+    background-color: #9E9E9E; /* Cinza */
+    color: #fff;
+}
+
+.status.finalizado {
+    background-color: #3F51B5; /* Azul */
+    color: #fff;
+}
+
+.status.nao-finalizado {
+    background-color: #FF5722; /* Laranja Escuro */
+    color: #fff;
+}
+
+.status.aguardando-aprovacao {
+    background-color: #FFA726; /* Laranja */
+    color: #fff;
+}
+
+/* Estilo Status Alternativo */
+.status {
+    padding: 6px;
+    border-radius: 4px;
+}
+
+.status.ativo {
+    background-color: #DAFEE9;
+    color: #00DC82;
+}
+
+.status.pendente {
+    background-color: #FDECF9;
+    color: #83428E;
+}
+
+.status.cancelado {
+    background-color: #dc3546a2;
+}
+
+/* Estilo para Plano */
+.plano{
+    font-size: 12px;
+    padding: 6px !important;
+    border-radius: 4px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+.asana {
+    background-color: #FFEAEC;
+    color: #690031;
+}
+
+.google {
+    background-color: #ff3d35;
+    color: white;
+}
+
+/* Media */
+@media screen and (max-width: 500px) {
+
+}
