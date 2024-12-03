@@ -1,4 +1,4 @@
-import { forwardRef, useState } from "react";
+import { forwardRef } from "react";
 import {
     Pagination,
     PaginationContent,
@@ -10,13 +10,13 @@ import {
 } from "@/components/ui/pagination";
 
 const PaginationUI = forwardRef((props, ref) => {
-    const [currentPage, setCurrentPage] = useState(1);
-    const totalPages = 10; // Total de páginas disponíveis
+    const {currentPage, setCurrentPage, entityArray} = props;
+    if(!entityArray) return;
+    
+    const totalPages = entityArray.length;
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
-        // Você pode adicionar lógica para buscar novos dados aqui, se necessário.
-        console.log(`Página atual: ${page}`);
     };
 
     const handlePrevious = () => {
@@ -47,7 +47,7 @@ const PaginationUI = forwardRef((props, ref) => {
                 </PaginationItem>
 
                 {/* Renderização das páginas */}
-                {[...Array(totalPages)].map((_, index) => {
+                {entityArray.map((_, index) => {
                     const page = index + 1;
                     if (
                         page === 1 || // Sempre exibe a primeira página

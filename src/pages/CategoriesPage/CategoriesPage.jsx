@@ -18,8 +18,11 @@ import useSearchConfigsStore from "../../store/searchConfigsStore"
 import orderArray from "../../utils/orderAlg"
 import TooltipUI from "../../components/ToolTip/ToolTip"
 import { useSearchParams } from "react-router-dom"
+import PaginationUI from "../../components/PaginationUI/PaginationUI"
+import paginateArray from "../../utils/paginateArray"
 
 let firstLoad = true;
+const DATA_PER_PAGE = 20;
 
 export default function CategoriesPage() {
     const {user, setUser} = useUserStore();
@@ -28,6 +31,7 @@ export default function CategoriesPage() {
 
     const toolBarRef = useRef(null);
     const filtersContainerRef = useRef(null);
+    const paginationRef = useRef(null);
 
     const [entity, setEntity] = useState(null); 
     const [displayEntity, setDisplayEntity] = useState(null); 
@@ -36,6 +40,7 @@ export default function CategoriesPage() {
     const [orderConfigs, setOrderConfigs] = useState(null);
     const { getData, getDataById, getDataByQuery, setData, updateData, deleteData } = useFetchData();
 
+    const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(null);
     const [message, setMessage] = useState(null);
     const [reload, setReload] = useState(false);
@@ -95,7 +100,7 @@ export default function CategoriesPage() {
         // 1. Busca
         if (searchConfings) {
           filteredData = filteredData.filter(item =>
-            item['nome'].toLowerCase().includes(searchConfings.searchTerm.toLowerCase())
+            item['name'].toLowerCase().includes(searchConfings.searchTerm.toLowerCase())
           );
         }
     
@@ -104,7 +109,12 @@ export default function CategoriesPage() {
             filteredData = orderArray(filteredData, orderConfigs.orderField, orderConfigs.orderDirection);
         }
     
-        setDisplayEntity(filteredData);
+        if(filteredData.length === 0){
+            setDisplayEntity(null);
+            return;
+        }
+    
+        setDisplayEntity(paginateArray(filteredData, DATA_PER_PAGE));
     }, [entity, searchConfings, filterConfigs, orderConfigs]);
 
     async function handleOrderByClick(e){
@@ -200,7 +210,7 @@ export default function CategoriesPage() {
             {loading ? (
                 <Loader />
             ) : (
-                <DataContainer viewType="list" refsToCalcHeight={[toolBarRef, filtersContainerRef]}>
+                <DataContainer viewType="list" refsToCalcHeight={[toolBarRef, filtersContainerRef, paginationRef]}>
                     <thead>
                         <tr>
                             <th>Nome da categoria</th>
@@ -208,7 +218,7 @@ export default function CategoriesPage() {
                         </tr>
                     </thead>
                     <tbody>
-                        {displayEntity && displayEntity.map((category) => (
+                        {displayEntity && displayEntity[currentPage - 1].map((category) => (
                             <tr key={category.id} data-id={category.id}>
                                 <td>{category.name}</td>
                                 <td className="alCenter">
@@ -224,12 +234,21 @@ export default function CategoriesPage() {
                             </tr>
                         ))}
 
-                        {!loading && entity.length === 0 &&
-                            <p style={{marginTop: 20}}>Nenhuma categoria foi encontrado.</p>
+                        {!loading && (!entity || !displayEntity) &&
+                            <p style={{marginTop: 20}}>Nenhuma categoria foi encontrada.</p>
                         }
                     </tbody>
                 </DataContainer>
             )}
+
+            {!loading && 
+                <PaginationUI 
+                    ref={paginationRef}
+                    setCurrentPage={setCurrentPage} 
+                    currentPage={currentPage}
+                    entityArray={displayEntity}/>
+            }
+
 
             {message && <Toast setMessage={setMessage}>{message}</Toast>}
 

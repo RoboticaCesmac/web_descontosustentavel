@@ -31,8 +31,10 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage"
 import { storage } from "../../firebase/config"
 import { useSearchParams } from "react-router-dom"
 import PaginationUI from "../../components/PaginationUI/PaginationUI"
+import paginateArray from "../../utils/paginateArray"
 
 let firstLoad = true;
+const DATA_PER_PAGE = 20;
 
 export default function ProductsPage() {
     const {user, setUser} = useUserStore();
@@ -52,6 +54,7 @@ export default function ProductsPage() {
     const [orderConfigs, setOrderConfigs] = useState(null);
     const { getData, getDataByQuery, setData, updateData, deleteData, deleteImageByDownloadURL} = useFetchData();
 
+    const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(null);
     const [submitLoading, setSubmitLoading] = useState(null);
     const [message, setMessage] = useState(null);
@@ -148,8 +151,13 @@ export default function ProductsPage() {
         if(orderConfigs){
             filteredData = orderArray(filteredData, orderConfigs.orderField, orderConfigs.orderDirection);
         }
+
+        if(filteredData.length === 0){
+            setDisplayEntity(null);
+            return;
+        }
     
-        setDisplayEntity(filteredData);
+        setDisplayEntity(paginateArray(filteredData, DATA_PER_PAGE));
     }, [entity, searchConfings, filterConfigs, orderConfigs]);
 
     async function handleFilterClick({target}) {
@@ -287,7 +295,7 @@ export default function ProductsPage() {
             <Filters onClick={handleFilterClick} ref={filtersContainerRef}>
                 <FilterBtn key="Todos" id="Todos" title="Todos" selected={filterSelected == "Todos" ? true : false} filter="" filteropt="" condicao="" alertlength={calcAlertLength(entity, "", "", "")} 
                 />
-                { categories && categories.map((category) => (
+                {categories && categories.map((category) => (
                     <FilterBtn
                         key={category.name}
                         id={category.name}
@@ -326,7 +334,7 @@ export default function ProductsPage() {
                         </tr>
                     </thead>
                     <tbody>
-                        {displayEntity && displayEntity.map((product) => (
+                        {displayEntity && displayEntity[currentPage - 1].map((product) => (
                             <tr key={product.id} data-id={product.id}>
                                 <td>
                                     <span className="rowProductImgContainer">
@@ -364,14 +372,20 @@ export default function ProductsPage() {
                             </tr>
                         ))}
 
-                        {!loading && entity.length === 0 &&
-                            <p style={{marginTop: 20}}>Nenhum contrato foi encontrado.</p>
+                        {!loading && (!entity || !displayEntity) &&
+                            <p style={{marginTop: 20}}>Nenhum produto foi encontrado.</p>
                         }
                     </tbody>
                 </DataContainer>
             )}
 
-            {!loading && <PaginationUI ref={paginationRef}/>}
+            {!loading && 
+                <PaginationUI 
+                    ref={paginationRef} 
+                    setCurrentPage={setCurrentPage} 
+                    currentPage={currentPage}
+                    entityArray={displayEntity}/>
+            }
 
             {message && <Toast setMessage={setMessage}>{message}</Toast>}
 

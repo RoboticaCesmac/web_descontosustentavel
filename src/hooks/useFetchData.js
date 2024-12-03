@@ -1,9 +1,10 @@
-import { getDocs, collection, where, query, orderBy, updateDoc, addDoc, doc, deleteDoc, getDoc, writeBatch } from 'firebase/firestore'
-import { db, storage } from '../firebase/config'
+import { getDocs, collection, where, query, orderBy, updateDoc, addDoc, doc, deleteDoc, getDoc, writeBatch, setDoc } from 'firebase/firestore'
+import { auth, db, storage } from '../firebase/config'
 import { deleteObject, ref } from 'firebase/storage';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import bcrypt from 'bcryptjs';
 
 export default function useFetchData() {
-    // const baseApiUrl
 
     async function getData(collectionName){
         const dataCollection = collection(db, collectionName);
@@ -79,6 +80,53 @@ export default function useFetchData() {
         } catch (error) {
             console.error("Erro ao adicionar documento:", error);
             throw error; 
+        }
+    }
+
+    async function createUser(email, password, additionalData = {}) {
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const userId = userCredential.user.uid;
+        
+            const saltRounds = 10;
+            const hashedPassword = await bcrypt.hash(password, saltRounds);
+        
+            const userData = {
+                email,
+                password: hashedPassword,
+                ...additionalData,
+            };
+        
+            await setDoc(doc(db, 'users', userId), userData);
+
+            console.log('Usuário criado com sucesso e salvo no Firestore!');
+            return userId;
+        } catch (error) {
+            console.error('Erro ao criar o usuário:', error.message);
+            throw error;
+        }
+    }
+
+    async function deleteUser(userUid, adminUid) {
+        const functionUrl = `https://mkt-admin-api.vercel.app/api/users/delete/${userUid}`;
+        
+        try {
+            const response = await fetch(functionUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({adminUid: adminUid})
+            });
+        
+            if (!response.ok) {
+                throw new Error(`Erro: ${response.statusText}`);
+            }
+        
+            const data = await response.json();
+            console.log(data.message);
+        } catch (error) {
+            console.error('Erro ao deletar o usuário:', error.message);
         }
     }
 
@@ -158,5 +206,5 @@ export default function useFetchData() {
         }
     }
 
-    return { getData, getDataById, getDataByQuery, getOrderedData, getQueryAndOrderedData, setData, updateData, deleteData, deleteDataInBatchWithQuery, deleteImageByDownloadURL }
+    return { getData, getDataById, getDataByQuery, getOrderedData, getQueryAndOrderedData, setData, createUser, deleteUser, updateData, deleteData, deleteDataInBatchWithQuery, deleteImageByDownloadURL }
 }

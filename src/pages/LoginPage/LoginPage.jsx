@@ -1,9 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { InputIcon } from '../../components/InputIcon/InputIcon'
 import './LoginPage.css'
-import { auth } from '../../firebase/config'
-import { signInWithCredential, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import bcrypt from 'bcryptjs';
 import {
     AlertDialog,

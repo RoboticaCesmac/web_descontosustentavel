@@ -37,8 +37,11 @@ import {
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { useSearchParams } from "react-router-dom"
+import PaginationUI from "../../components/PaginationUI/PaginationUI"
+import paginateArray from "../../utils/paginateArray"
 
 let firstLoad = true;
+const DATA_PER_PAGE = 20;
 
 export default function UsersPage() {
     const {user, setUser} = useUserStore();
@@ -48,14 +51,16 @@ export default function UsersPage() {
 
     const toolBarRef = useRef(null);
     const filtersContainerRef = useRef(null);
+    const paginationRef = useRef(null);
 
     const [entity, setEntity] = useState(null); 
     const [displayEntity, setDisplayEntity] = useState(null); 
     const { searchConfings, setSearchConfigs } = useSearchConfigsStore();
     const [filterConfigs, setFilterConfigs] = useState(null);
     const [orderConfigs, setOrderConfigs] = useState(null);
-    const { getData, getDataById, getDataByQuery, setData, updateData, deleteData, deleteDataInBatchWithQuery, deleteImageByDownloadURL } = useFetchData();
+    const { getData, getDataByQuery, setData, createUser, deleteUser, updateData, deleteData, deleteDataInBatchWithQuery, deleteImageByDownloadURL } = useFetchData();
 
+    const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(null);
     const [submitLoading, setSubmitLoading] = useState(null);
     const [error, setError] = useState(null);
@@ -68,6 +73,7 @@ export default function UsersPage() {
     const [imageObs, setImageObs] = useState(null);
     const spanImageObs = useRef(null);
     const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [userType, setUserType] = useState('');
     const [cep, setCEP] = useState('');
     const [state, setState] = useState('');
@@ -148,7 +154,12 @@ export default function UsersPage() {
             filteredData = orderArray(filteredData, orderConfigs.orderField, orderConfigs.orderDirection);
         }
     
-        setDisplayEntity(filteredData);
+        if(filteredData.length === 0){
+            setDisplayEntity(null);
+            return;
+        }
+    
+        setDisplayEntity(paginateArray(filteredData, DATA_PER_PAGE));
     }, [entity, searchConfings, filterConfigs, orderConfigs]);
 
     async function handleFilterClick({target}) {
@@ -186,6 +197,7 @@ export default function UsersPage() {
         setName("");
         setImage("");
         setEmail("");
+        setPassword("");
         setState("");
         setCity("");
         setNeighborhood("");
@@ -220,16 +232,17 @@ export default function UsersPage() {
             setModalVisible(true);
         };
         if(e.target.className.includes('excluirBtn')){
-            const deleteUser = entity.filter((user) => user.id === userId)[0]
-            const alert = `ALERTA!!! Ao excluir: ${deleteUser.name}, todos os produtos vinculados a ele também serão excluidos, deseja continuar? (A operação pode demorar um pouco, por favor não feche a página.)`;
+            const userToDelete = entity.filter((user) => user.id === userId)[0]
+            const alert = `ALERTA!!! Ao excluir: ${userToDelete.name}, todos os produtos vinculados a ele também serão excluidos, deseja continuar? (A operação pode demorar um pouco, por favor não feche a página.)`;
 
-            if(confirm(`${deleteUser.userType === "RETAILER" ? alert : `Confirma exclusão de ${deleteUser.name}?`}`)){
+            if(confirm(`${userToDelete.userType === "RETAILER" ? alert : `Confirma exclusão de ${userToDelete.name}?`}`)){
                 setLoading(true);
-                if(deleteUser.userType === "RETAILER" ) await deleteDataInBatchWithQuery("products", "retailerId", "==", deleteUser.id);
-                await deleteImageByDownloadURL(deleteUser.image);
-                await deleteData("users", deleteUser.id);
+                if(userToDelete.userType === "RETAILER" ) await deleteDataInBatchWithQuery("products", "retailerId", "==", userToDelete.id);
+                await deleteImageByDownloadURL(userToDelete.image);
+                await deleteData("users", userToDelete.id);
+                await deleteUser(userToDelete.id, user.id);
                 setReload((prevState) => !prevState);
-                setMessage(`Usuário ${deleteUser.name} excluido com sucesso.`);
+                setMessage(`Usuário ${userToDelete.name} excluido com sucesso.`);
             }
         };
     }
@@ -267,7 +280,7 @@ export default function UsersPage() {
             : userForValidate;
 
             userForValidate = modalType === "formSave" 
-            ? { ...userForValidate, email, userType} 
+            ? { ...userForValidate, email, password, userType} 
             : userForValidate; 
 
             userForValidate = (modalType === "formSave" && userType === "RETAILER") 
@@ -298,13 +311,12 @@ export default function UsersPage() {
                 await updateData("users", selectedUser.id, updateUser);
 
             } else if(modalType == "formSave"){
-                const url = await uploadImage();
-                const newUser = {...userForValidate, image: url};
-
-                const alreadyExistEmail = await getDataByQuery("users", "email", "==", newUser.email);
+                const alreadyExistEmail = await getDataByQuery("users", "email", "==", userForValidate.email);
                 if(alreadyExistEmail.length > 0) throw new Error("Erro, já existe alguém com esse e-mail.");
 
-                await setData("users", newUser);
+                const url = await uploadImage();
+                const aditionalData = {...userForValidate, image: url}; delete aditionalData.email; delete aditionalData.password;
+                await createUser(userForValidate.email, userForValidate.password, aditionalData);
             }
         } catch(e){
             console.log(e);
@@ -353,7 +365,7 @@ export default function UsersPage() {
             {loading ? (
                 <Loader />
             ) : (
-                <DataContainer viewType="list" refsToCalcHeight={[toolBarRef, filtersContainerRef]}>
+                <DataContainer viewType="list" refsToCalcHeight={[toolBarRef, filtersContainerRef, paginationRef]}>
                     <thead>
                         <tr>
                             <th>Nome</th>
@@ -365,7 +377,7 @@ export default function UsersPage() {
                         </tr>
                     </thead>
                     <tbody>
-                        {displayEntity && displayEntity.map((userDoc) => (
+                        {displayEntity && displayEntity[currentPage - 1].map((userDoc) => (
                             <tr key={userDoc.id} data-id={userDoc.id}>
                                 <td>
                                     <span className="rowUserImgContainer">
@@ -398,12 +410,20 @@ export default function UsersPage() {
                             </tr>
                         ))}
 
-                        {!loading && entity.length === 0 &&
+                        {!loading && (!entity || !displayEntity) &&
                             <p style={{marginTop: 20}}>Nenhum usuário foi encontrado.</p>
                         }
                     </tbody>
                 </DataContainer>
             )}
+
+            {!loading && 
+                <PaginationUI 
+                    ref={paginationRef} 
+                    setCurrentPage={setCurrentPage} 
+                    currentPage={currentPage}
+                    entityArray={displayEntity}/>
+            }
 
             {message && <Toast setMessage={setMessage}>{message}</Toast>}
 
@@ -458,6 +478,17 @@ export default function UsersPage() {
                                             placeholder='Email...'
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}/>
+                                    </label>
+                                    <label>
+                                        <span>Senha</span>
+                                        <InputIcon 
+                                            iconName='lock' 
+                                            type="text" 
+                                            value={password} 
+                                            onChange={(e) => setPassword(e.target.value)} 
+                                            placeholder='Senha...' 
+                                            required
+                                        />
                                     </label>
                                     <label>
                                         <span>Função</span>
