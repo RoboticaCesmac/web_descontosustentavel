@@ -16,6 +16,7 @@ const PaginationUI = forwardRef((props, ref) => {
     const totalPages = entityArray.length;
 
     const handlePageChange = (page) => {
+        document.querySelector("#dataContainer")?.scrollTo({left: 0, top: 0, behavior: 'instant'});
         setCurrentPage(page);
     };
 

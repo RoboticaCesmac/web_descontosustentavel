@@ -81,7 +81,7 @@ export default function CategoriesPage() {
     useEffect(() => {
         // QuickAdd
         if(quickAdd){
-            setModalVisible(true);
+            setModalVisible(true); setModalType("formSave"); modalFormRef.current?.reset();
             setSearchParams("");
         }
     }, [searchParams])
