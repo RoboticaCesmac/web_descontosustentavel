@@ -1,8 +1,10 @@
-# React + Vite
+# Admin Panel (React + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/89d23b0f-0999-4881-91f9-131ad8a224bd" alt="Image 2" width="70%">
+  <img src="https://github.com/user-attachments/assets/1cdb74f4-6921-4639-bfe5-7f6b85cb7ed3" alt="Image 1" width="29%">
+</p>
 
-Currently, two official plugins are available:
+## An admin panel for "mkt-alimentos-a-vencer"
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+* With Products / Categories / Users CRUD
