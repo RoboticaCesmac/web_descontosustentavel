@@ -108,7 +108,7 @@ export default function useFetchData() {
     }
 
     async function deleteUser(userUid, adminUid) {
-        const functionUrl = `https://mkt-admin-api.vercel.app/api/users/delete/${userUid}`;
+        const functionUrl = `${import.meta.VITE_API_URL}/api/users/delete/${userUid}`;
         
         try {
             const response = await fetch(functionUrl, {

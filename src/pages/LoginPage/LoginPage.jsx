@@ -70,7 +70,7 @@ export default function LoginPage() {
                                 ref={userInputRef}
                                 type="text"
                                 iconName="person" 
-                                placeholder="usuário" required={true}/>
+                                placeholder="Usuário" required={true}/>
                             <InputIcon
                                 ref={passwordInputRef}
                                 type="password" 
